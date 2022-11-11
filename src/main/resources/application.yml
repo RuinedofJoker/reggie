@@ -57,4 +57,4 @@ mybatis-plus:
   mapper-locations: classpath*:/mapper/*.xml
   type-aliases-package: com.lin.reggie.entity
 reggie:
-  path: D:\img\reggie\reggie_take_out\
+  path: D:\reggie\reggie_take_out\img\
