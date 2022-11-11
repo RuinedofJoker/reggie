@@ -24,6 +24,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Result deleteCategoryById(long id) {
+        if (categoryMapper.deleteById(id) != 0){
+            return Result.success("删除成功");
+        }
+        return Result.error("删除失败");
+    }
+
+    @Override
     public Result setCategory(Category category) {
         if (categoryMapper.selectBySort(category.getSort()) != null){
             return Result.error("添加失败，排序重复");
@@ -32,5 +40,16 @@ public class CategoryServiceImpl implements CategoryService {
             return Result.success("添加成功");
         }
         return Result.error("添加失败");
+    }
+
+    @Override
+    public Result changeCategory(Category category) {
+        if (categoryMapper.selectBySort(category.getSort()) != null){
+            return Result.error("修改失败，排序重复");
+        }
+        if (categoryMapper.updateById(category) != 0){
+            return Result.success("修改成功");
+        }
+        return Result.error("修改失败");
     }
 }

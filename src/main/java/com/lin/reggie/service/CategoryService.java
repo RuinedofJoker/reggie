@@ -8,4 +8,8 @@ public interface CategoryService {
     Result<Page> getPage(int page, int pageSize);
 
     Result setCategory(Category category);
+
+    Result changeCategory(Category category);
+
+    Result deleteCategoryById(long id);
 }

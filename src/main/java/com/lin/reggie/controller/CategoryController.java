@@ -36,5 +36,19 @@ public class CategoryController {
         return categoryService.setCategory(category);
     }
 
+    @PutMapping
+    public Result changeCategoryImfo(@RequestBody Category category, HttpServletRequest request){
+        Long createUserId = (Long) request.getSession().getAttribute("employee");
+        category.setCreateUser(createUserId);
+        category.setUpdateUser(createUserId);
+        category.setCreateTime(LocalDateTime.now());
+        category.setUpdateTime(LocalDateTime.now());
 
+        return categoryService.changeCategory(category);
+    }
+
+    @DeleteMapping
+    public Result deleteCategory(@RequestParam long id){
+        return categoryService.deleteCategoryById(id);
+    }
 }
