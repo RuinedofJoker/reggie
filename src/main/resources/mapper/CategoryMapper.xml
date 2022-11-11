@@ -4,4 +4,7 @@
     <select id="selectBySort" parameterType="int" resultType="Category">
         select * from category where sort=#{sort}
     </select>
+    <select id="selectByType" parameterType="int" resultType="map">
+        select * from category where type=#{type}
+    </select>
 </mapper>

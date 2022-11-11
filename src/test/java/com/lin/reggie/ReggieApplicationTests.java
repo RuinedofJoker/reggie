@@ -1,6 +1,5 @@
 package com.lin.reggie;
 
-import com.lin.reggie.entity.Employee;
 import com.lin.reggie.mapper.CategoryMapper;
 import com.lin.reggie.mapper.EmployeeMapper;
 import com.lin.reggie.service.EmployeeService;
@@ -25,6 +24,8 @@ class ReggieApplicationTests {
         System.out.println(employeeMapper.updateEmployeeStatusById(employee));*/
 
 /*        System.out.println(categoryMapper.selectBySort(1));*/
+
+        /*System.out.println(categoryMapper.selectByType(1));*/
     }
 
 }

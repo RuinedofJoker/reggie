@@ -8,6 +8,8 @@ import com.lin.reggie.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -29,6 +31,15 @@ public class CategoryServiceImpl implements CategoryService {
             return Result.success("删除成功");
         }
         return Result.error("删除失败");
+    }
+
+    @Override
+    public Result<List<Category>> getCategoryByType(int type) {
+        List<Category> list = categoryMapper.selectByType(type);
+        if (list != null){
+            return Result.success(list);
+        }
+        return Result.error("未查询到类别为"+type+"的菜品");
     }
 
     @Override

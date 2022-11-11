@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/category")
@@ -50,5 +51,10 @@ public class CategoryController {
     @DeleteMapping
     public Result deleteCategory(@RequestParam long id){
         return categoryService.deleteCategoryById(id);
+    }
+
+    @GetMapping("/list")
+    public Result<List<Category>> getCategoryByType(int type){
+        return categoryService.getCategoryByType(type);
     }
 }
