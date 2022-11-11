@@ -14,6 +14,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryMapper categoryMapper;
 
+
+    @Override
+    public Result<Page> getPage(int page, int pageSize) {
+        Page pageInfo = new Page(page,pageSize);
+        categoryMapper.selectPage(pageInfo,null);
+
+        return Result.success(pageInfo);
+    }
+
     @Override
     public Result setCategory(Category category) {
         if (categoryMapper.selectBySort(category.getSort()) != null){
@@ -23,14 +32,5 @@ public class CategoryServiceImpl implements CategoryService {
             return Result.success("添加成功");
         }
         return Result.error("添加失败");
-    }
-
-
-    @Override
-    public Result<Page> getPage(int page, int pageSize) {
-        Page pageInfo = new Page(page,pageSize);
-        categoryMapper.selectPage(pageInfo,null);
-
-        return Result.success(pageInfo);
     }
 }
