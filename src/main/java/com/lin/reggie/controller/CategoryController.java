@@ -7,6 +7,9 @@ import com.lin.reggie.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
@@ -23,7 +26,15 @@ public class CategoryController {
     套餐type为2
     {分类名称name: "1", type: "2", 排序sort: "1"}*/
     @PostMapping
-    public Result addCategory(@RequestBody Category category){
-        return Result.error("");
+    public Result addCategory(@RequestBody Category category, HttpServletRequest request){
+        Long createUserId = (Long) request.getSession().getAttribute("employee");
+        category.setCreateUser(createUserId);
+        category.setUpdateUser(createUserId);
+        category.setCreateTime(LocalDateTime.now());
+        category.setUpdateTime(LocalDateTime.now());
+
+        return categoryService.setCategory(category);
     }
+
+
 }
