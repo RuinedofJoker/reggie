@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @ResponseBody
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(CustomException.class)
+    @ExceptionHandler({CustomException.class,Exception.class})
     public Result catchExceptionHandler(CustomException ex){
         return Result.error(ex.getMessage());
     }
