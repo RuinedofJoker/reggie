@@ -17,8 +17,8 @@ public class DishController {
     DishService dishService;
 
     @GetMapping("/page")
-    public Result<Page> getDishList(int page,int pageSize){
-        return dishService.getDishPageList(page,pageSize);
+    public Result<Page> getDishList(int page,int pageSize,String name){
+        return dishService.getDishPageList(page,pageSize,name);
     }
 
     @PostMapping
@@ -30,5 +30,21 @@ public class DishController {
     @DeleteMapping
     public Result<String> deleteDish(long ids) throws Exception{
         return dishService.deleteDishById(ids);
+    }
+
+    @GetMapping("/{id}")
+    public Result<DishDto> queryDishById(@PathVariable long id){
+        return dishService.getDishById(id);
+    }
+
+    @PutMapping
+    public Result<String> putDish(@RequestBody DishDto dishDto, HttpServletRequest request) throws Exception {
+        long userId = (long) request.getSession().getAttribute("employee");
+        return dishService.changeDish(dishDto,userId);
+    }
+
+    @PostMapping("/status/{status}")
+    public Result<String> changeDishStatus(@PathVariable int status,long ids){
+        return dishService.changeDishStatus(status,ids);
     }
 }

@@ -6,9 +6,15 @@ import com.lin.takeout.dto.DishDto;
 
 public interface DishService {
 
-    Result<Page> getDishPageList(int page, int pageSize);
+    Result<Page> getDishPageList(int page, int pageSize, String name);
 
     Result<String> addDish(DishDto dishDto,long userId);
 
     Result<String> deleteDishById(long id) throws Exception;
+
+    Result<DishDto> getDishById(long id);
+
+    Result<String> changeDish(DishDto dishDto,long userId) throws Exception ;
+
+    Result<String> changeDishStatus(int status,long id);
 }

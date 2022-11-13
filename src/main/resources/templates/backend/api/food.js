@@ -18,6 +18,7 @@ const deleteDish = (ids) => {
   })
 }
 
+//f
 // 修改接口
 const editDish = (params) => {
   return $axios({
@@ -37,6 +38,7 @@ const addDish = (params) => {
   })
 }
 
+//f
 // 查询详情
 const queryDishById = (id) => {
   return $axios({
@@ -45,6 +47,7 @@ const queryDishById = (id) => {
   })
 }
 
+//f
 // 获取菜品分类列表
 const getCategoryList = (params) => {
   return $axios({
@@ -76,6 +79,7 @@ const commonDownload = (params) => {
   })
 }
 
+//f
 // 起售停售---批量起售停售接口
 const dishStatusByStatus = (params) => {
   return $axios({

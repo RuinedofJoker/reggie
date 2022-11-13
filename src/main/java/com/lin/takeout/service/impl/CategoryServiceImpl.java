@@ -1,5 +1,6 @@
 package com.lin.takeout.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.takeout.common.Result;
 import com.lin.takeout.entity.Category;
@@ -20,8 +21,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Result<Page> getPage(int page, int pageSize) {
         Page pageInfo = new Page(page,pageSize);
-        categoryMapper.selectPage(pageInfo,null);
-
+        LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderByAsc(Category::getSort);
+        categoryMapper.selectPage(pageInfo,queryWrapper);
         return Result.success(pageInfo);
     }
 
