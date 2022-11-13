@@ -3,6 +3,9 @@ package com.lin.takeout.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.takeout.common.Result;
 import com.lin.takeout.dto.DishDto;
+import com.lin.takeout.entity.Dish;
+
+import java.util.List;
 
 public interface DishService {
 
@@ -17,4 +20,6 @@ public interface DishService {
     Result<String> changeDish(DishDto dishDto,long userId) throws Exception ;
 
     Result<String> changeDishStatus(int status,long id);
+
+    Result<List<Dish>> getDishByCategoryId(long categoryId);
 }

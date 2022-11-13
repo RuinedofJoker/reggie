@@ -16,7 +16,7 @@ public class SetmealController {
     SetmealService setmealService;
 
     @GetMapping("/page")
-    public Result<Page> getSetmealList(int page,int pageSize){
-        return setmealService.getSetmealPageList(page,pageSize);
+    public Result<Page> getSetmealList(int page,int pageSize,String name){
+        return setmealService.getSetmealPageList(page,pageSize,name);
     }
 }

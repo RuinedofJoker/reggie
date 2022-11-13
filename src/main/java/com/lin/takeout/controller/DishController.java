@@ -3,11 +3,13 @@ package com.lin.takeout.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.takeout.common.Result;
 import com.lin.takeout.dto.DishDto;
+import com.lin.takeout.entity.Dish;
 import com.lin.takeout.service.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/dish")
@@ -46,5 +48,10 @@ public class DishController {
     @PostMapping("/status/{status}")
     public Result<String> changeDishStatus(@PathVariable int status,long ids){
         return dishService.changeDishStatus(status,ids);
+    }
+
+    @GetMapping("/list")
+    public Result<List<Dish>> getDishByCategoryId(long categoryId){
+        return dishService.getDishByCategoryId(categoryId);
     }
 }

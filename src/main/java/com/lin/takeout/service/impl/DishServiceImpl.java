@@ -12,6 +12,7 @@ import com.lin.takeout.mapper.DishFlavorMapper;
 import com.lin.takeout.mapper.DishMapper;
 import com.lin.takeout.service.CommonService;
 import com.lin.takeout.service.DishService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,6 +84,12 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
+    public Result<List<Dish>> getDishByCategoryId(long categoryId) {
+        List<Dish> list = dishMapper.selectByCategoryId(categoryId);
+        return Result.success(list);
+    }
+
+    @Override
     public Result<Page> getDishPageList(int page,int pageSize, String name){
         Page<Dish> dishPage = new Page<Dish>(page,pageSize);
         Page<DishDto> dishDtoPage = new Page<DishDto>(page,pageSize);
@@ -90,7 +97,7 @@ public class DishServiceImpl implements DishService {
         //条件构造器
         LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
         //添加过滤条件
-        queryWrapper.like(name != null,Dish::getName,name);
+        queryWrapper.like(StringUtils.isNotEmpty(name),Dish::getName,name);
         //添加排序条件
         queryWrapper.orderByDesc(Dish::getUpdateTime);
 

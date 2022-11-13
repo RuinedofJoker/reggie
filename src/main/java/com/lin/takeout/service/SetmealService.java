@@ -5,5 +5,5 @@ import com.lin.takeout.common.Result;
 
 public interface SetmealService {
 
-    Result<Page> getSetmealPageList(int page, int pageSize);
+    Result<Page> getSetmealPageList(int page, int pageSize,String name);
 }
