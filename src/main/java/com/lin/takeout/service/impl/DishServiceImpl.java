@@ -7,6 +7,7 @@ import com.lin.takeout.entity.Dish;
 import com.lin.takeout.entity.DishFlavor;
 import com.lin.takeout.mapper.DishFlavorMapper;
 import com.lin.takeout.mapper.DishMapper;
+import com.lin.takeout.service.CommonService;
 import com.lin.takeout.service.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class DishServiceImpl implements DishService {
     DishMapper dishMapper;
     @Autowired
     DishFlavorMapper dishFlavorMapper;
+    @Autowired
+    CommonService commonService;
 
     @Override
     public Result<Page> getDishPageList(int page,int pageSize){
@@ -59,5 +62,15 @@ public class DishServiceImpl implements DishService {
         }
 
         return Result.success("");
+    }
+
+    @Override
+    public Result<String> deleteDishById(long id) throws Exception {
+        String img = dishMapper.selectById(id).getImage();
+        if (dishMapper.deleteById(id) != -1 && dishFlavorMapper.deleteByDishId(id) != -1){
+            commonService.deleteImg(img);
+            return Result.success("删除成功");
+        }
+        return Result.error("删除失败");
     }
 }

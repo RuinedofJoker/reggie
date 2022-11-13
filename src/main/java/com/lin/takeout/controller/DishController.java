@@ -26,4 +26,9 @@ public class DishController {
         long userId = (long) request.getSession().getAttribute("employee");
         return dishService.addDish(dishDto,userId);
     }
+
+    @DeleteMapping
+    public Result<String> deleteDish(long ids) throws Exception{
+        return dishService.deleteDishById(ids);
+    }
 }

@@ -46,4 +46,17 @@ public class CommonServiceImpl implements CommonService {
         file.transferTo(new File(pathName));
         return Result.success(imgName);
     }
+
+    @Override
+    public int deleteImg(String img) throws Exception {
+        String pathName = getClass().getResource("/")+"";
+        pathName = pathName.substring(6);
+        pathName = pathName+"../../src/main/resources/static/img/";
+        pathName = pathName+img;
+        pathName = pathName.replace("/","\\");
+        if (new File(pathName).delete()){
+            return 1;
+        }
+        return -1;
+    }
 }

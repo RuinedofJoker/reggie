@@ -10,4 +10,5 @@ public interface DishMapper extends BaseMapper<Dish> {
 
     @Select("select * from dish where name=#{name}")
     Dish selectByName(String name);
+
 }

@@ -10,4 +10,6 @@ public interface CommonService {
     void getImg(String img, ServletOutputStream outputStream) throws Exception;
 
     Result<String> uploadImg(MultipartFile file) throws Exception;
+
+    int deleteImg(String img) throws Exception;
 }

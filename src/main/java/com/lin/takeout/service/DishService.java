@@ -9,4 +9,6 @@ public interface DishService {
     Result<Page> getDishPageList(int page, int pageSize);
 
     Result<String> addDish(DishDto dishDto,long userId);
+
+    Result<String> deleteDishById(long id) throws Exception;
 }

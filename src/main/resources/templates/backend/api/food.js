@@ -8,6 +8,7 @@ const getDishPage = (params) => {
   })
 }
 
+//f
 // 删除接口
 const deleteDish = (ids) => {
   return $axios({
