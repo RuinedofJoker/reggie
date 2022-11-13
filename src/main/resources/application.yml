@@ -55,4 +55,4 @@ mybatis-plus:
     db-config:
       id-type: ASSIGN_ID
   mapper-locations: classpath*:/mapper/*.xml
-  type-aliases-package: com.lin.reggie.entity
+  type-aliases-package: com.lin.takeout.entity
