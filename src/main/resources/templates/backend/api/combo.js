@@ -8,6 +8,7 @@ const getSetmealPage = (params) => {
   })
 }
 
+//f
 // 删除数据接口
 const deleteSetmeal = (ids) => {
   return $axios({
@@ -17,6 +18,7 @@ const deleteSetmeal = (ids) => {
   })
 }
 
+//f
 // 修改数据接口
 const editSetmeal = (params) => {
   return $axios({
@@ -26,7 +28,7 @@ const editSetmeal = (params) => {
   })
 }
 
-//
+//f
 // 新增数据接口
 const addSetmeal = (params) => {
   return $axios({
@@ -36,6 +38,7 @@ const addSetmeal = (params) => {
   })
 }
 
+//f
 // 查询详情接口
 const querySetmealById = (id) => {
   return $axios({
@@ -44,6 +47,7 @@ const querySetmealById = (id) => {
   })
 }
 
+//f
 // 批量起售禁售
 const setmealStatusByStatus = (params) => {
   return $axios({

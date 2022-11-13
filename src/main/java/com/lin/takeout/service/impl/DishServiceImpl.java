@@ -79,7 +79,9 @@ public class DishServiceImpl implements DishService {
         if (dishMapper.updateById(dish) == -1){
             return Result.error("修改菜品失败");
         }
-        commonService.deleteImg(deletedImg);
+        if (!deletedImg.equals(nowDish.getImage())){
+            commonService.deleteImg(deletedImg);
+        }
         return Result.success("修改成功");
     }
 
