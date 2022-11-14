@@ -1,12 +1,18 @@
 package com.lin.takeout.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.takeout.common.Result;
 import com.lin.takeout.entity.Dish;
+import com.lin.takeout.entity.Orders;
 import com.lin.takeout.mapper.OrderMapper;
 import com.lin.takeout.service.OrderService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -15,8 +21,19 @@ public class OrderServiceImpl implements OrderService {
     OrderMapper orderMapper;
 
     @Override
-    public Result<Page> getOrderPageList(int page, int pageSize) {        Page pageInfo = new Page<Dish>(page,pageSize);
-        orderMapper.selectPage(pageInfo,null);
+    public Result<Page> getOrderPageList(int page, int pageSize, String number, String beginTime, String endTime) {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime beginTimeChanged = null;
+        LocalDateTime endTimeChanged = null;
+        Page pageInfo = new Page<Dish>(page,pageSize);
+        if (StringUtils.isNotEmpty(beginTime)) beginTimeChanged = LocalDateTime.parse(beginTime,dateFormat);
+        if (StringUtils.isNotEmpty(endTime)) endTimeChanged = LocalDateTime.parse(endTime,dateFormat);
+        LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.isNotEmpty(number),Orders::getNumber,number);
+        queryWrapper.orderByDesc(Orders::getOrderTime);
+        queryWrapper.ge(StringUtils.isNotEmpty(beginTime),Orders::getOrderTime,beginTimeChanged);
+        queryWrapper.le(StringUtils.isNotEmpty(endTime),Orders::getOrderTime,endTimeChanged);
+        orderMapper.selectPage(pageInfo,queryWrapper);
         return Result.success(pageInfo);
     }
 }

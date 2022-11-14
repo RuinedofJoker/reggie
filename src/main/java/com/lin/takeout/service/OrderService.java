@@ -6,5 +6,5 @@ import com.lin.takeout.common.Result;
 
 public interface OrderService {
 
-    Result<Page> getOrderPageList(int page, int pageSize);
+    Result<Page> getOrderPageList(int page, int pageSize, String number, String beginTime, String endTime);
 }

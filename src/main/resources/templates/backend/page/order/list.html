@@ -50,7 +50,7 @@
           <i slot="prefix" class="el-input__icon el-icon-search" style="cursor: pointer" @click="init"></i>
         </el-input>
         <el-date-picker v-model="orderTime"
-          clearable 
+          clearable
           value-format="yyyy-MM-dd HH:mm:ss"
           type="datetimerange"
           placeholder="选择日期"
@@ -217,6 +217,7 @@
         },
         methods: {
           async init () {
+            console.log(typeof this.beginTime)
             getOrderDetailPage({ page: this.page, pageSize: this.pageSize, number: this.input || undefined, beginTime: this.beginTime || undefined, endTime: this.endTime || undefined }).then(res => {
               if (String(res.code) === '1') {
                 this.tableData = res.data.records || []
