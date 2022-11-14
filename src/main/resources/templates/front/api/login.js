@@ -1,3 +1,4 @@
+//f
 function loginApi(data) {
     return $axios({
         'url': '/user/login',
@@ -6,6 +7,7 @@ function loginApi(data) {
     })
 }
 
+//f
 function sendMsgApi(data) {
     return $axios({
         'url': '/user/sendMsg',
@@ -14,6 +16,7 @@ function sendMsgApi(data) {
     })
 }
 
+//f
 function loginoutApi() {
     return $axios({
         'url': '/user/logout',
@@ -21,4 +24,3 @@ function loginoutApi() {
     })
 }
 
-  
