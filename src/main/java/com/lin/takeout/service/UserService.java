@@ -7,5 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface UserService {
 
-    public Result<User> checkUserLogin(User user, HttpServletRequest request);
+    Result<User> checkUserLogin(User user, HttpServletRequest request);
+
+    Result<String> sendMessage(String phone);
 }

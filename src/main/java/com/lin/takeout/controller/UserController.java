@@ -4,12 +4,10 @@ import com.lin.takeout.common.Result;
 import com.lin.takeout.entity.User;
 import com.lin.takeout.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -24,7 +22,8 @@ public class UserController {
     }
 
     @PostMapping("/sendMsg")
-    public Result<String> sendMsg(@RequestBody User user){
-        return Result.success("");
+    public Result<String> sendMsg(@RequestBody Map map){
+        String phone = (String) map.get("phone");
+        return userService.sendMessage(phone);
     }
 }
