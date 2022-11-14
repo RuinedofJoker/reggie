@@ -2,6 +2,7 @@ package com.lin.takeout.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.takeout.common.Result;
+import com.lin.takeout.entity.Orders;
 import com.lin.takeout.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class OrderController {
     }
 
     @PutMapping
-    public Result changeStatus(String id,String status){
-        return Result.error("功能未开放");
+    public Result<String> changeStatus(@RequestBody Orders orders){
+        return orderService.changeStatus(orders);
     }
 }

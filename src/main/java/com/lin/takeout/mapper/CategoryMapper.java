@@ -12,4 +12,6 @@ public interface CategoryMapper extends BaseMapper<Category> {
     Category selectBySort(int sort);
 
     List<Category> selectByType(int type);
+
+    List<Category> selectAll();
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.takeout.common.Result;
 import com.lin.takeout.entity.Category;
 import com.lin.takeout.service.CategoryService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,7 +55,14 @@ public class CategoryController {
     }
 
     @GetMapping("/list")
-    public Result<List<Category>> getCategoryByType(int type){
-        return categoryService.getCategoryByType(type);
+    public Result<List<Category>> getCategoryByType(HttpServletRequest request){
+
+        //http://localhost:8080/category/list?type=2&page=1&pageSize=1000
+        String type = request.getParameter("type");
+        int typeChaged;
+        if (StringUtils.isNotEmpty(type)){
+            typeChaged = Integer.parseInt(type);
+            return categoryService.getCategoryByType(typeChaged);
+        } else return categoryService.getCategoryList();
     }
 }

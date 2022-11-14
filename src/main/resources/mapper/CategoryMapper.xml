@@ -7,4 +7,7 @@
     <select id="selectByType" parameterType="int" resultType="map">
         select * from category where type=#{type}
     </select>
+    <select id="selectAll" resultType="map">
+        select * from category
+    </select>
 </mapper>

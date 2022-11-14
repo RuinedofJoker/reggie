@@ -28,6 +28,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Result<List<Category>> getCategoryList() {
+        return Result.success(categoryMapper.selectAll());
+    }
+
+    @Override
     public Result deleteCategoryById(long id) {
         if (categoryMapper.deleteById(id) != 0){
             return Result.success("删除成功");

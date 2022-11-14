@@ -36,4 +36,10 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.selectPage(pageInfo,queryWrapper);
         return Result.success(pageInfo);
     }
+
+    @Override
+    public Result<String> changeStatus(Orders orders) {
+        orderMapper.updateStatus(orders.getStatus());
+        return Result.success("修改成功");
+    }
 }

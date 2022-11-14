@@ -16,4 +16,6 @@ public interface CategoryService {
     Result deleteCategoryById(long id);
 
     Result<List<Category>> getCategoryByType(int type);
+
+    Result<List<Category>> getCategoryList();
 }
