@@ -3,7 +3,6 @@ package com.lin.takeout.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.takeout.common.Result;
 import com.lin.takeout.dto.DishDto;
-import com.lin.takeout.entity.Dish;
 import com.lin.takeout.service.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +50,7 @@ public class DishController {
     }
 
     @GetMapping("/list")
-    public Result<List<Dish>> getDishByCategoryId(long categoryId){
+    public Result<List<DishDto>> getDishByCategoryId(long categoryId){
         return dishService.getDishByCategoryId(categoryId);
     }
 }

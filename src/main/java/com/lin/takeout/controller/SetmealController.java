@@ -3,11 +3,13 @@ package com.lin.takeout.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.takeout.common.Result;
 import com.lin.takeout.dto.SetmealDto;
+import com.lin.takeout.entity.Setmeal;
 import com.lin.takeout.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/setmeal")
@@ -47,5 +49,10 @@ public class SetmealController {
     public Result<String> changeSetmealStatus(@PathVariable int status, String ids, HttpServletRequest request){
         long userId = (long) request.getSession().getAttribute("employee");
         return setmealService.changeSetmealStatus(status,ids,userId);
+    }
+
+    @GetMapping("/list")
+    public Result<List<Setmeal>> getCategory(Setmeal setmeal){
+        return setmealService.getCategoryList(setmeal);
     }
 }

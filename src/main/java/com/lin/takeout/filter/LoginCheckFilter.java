@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSON;
 import com.lin.takeout.common.Result;
 import org.springframework.util.AntPathMatcher;
 
-import javax.servlet.Filter;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +47,14 @@ public class LoginCheckFilter implements Filter {
         //判断是否为员工登录
         if (request.getSession() != null){
             if (request.getSession().getAttribute("employee") != null){
+                filterChain.doFilter(request,response);
+                return;
+            }
+        }
+
+        //判断是否为用户登录
+        if (request.getSession() != null){
+            if (request.getSession().getAttribute("user") != null){
                 filterChain.doFilter(request,response);
                 return;
             }

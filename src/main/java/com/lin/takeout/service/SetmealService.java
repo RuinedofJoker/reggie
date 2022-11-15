@@ -3,6 +3,9 @@ package com.lin.takeout.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.takeout.common.Result;
 import com.lin.takeout.dto.SetmealDto;
+import com.lin.takeout.entity.Setmeal;
+
+import java.util.List;
 
 public interface SetmealService {
 
@@ -17,4 +20,6 @@ public interface SetmealService {
     Result<String> deleteSetmealById(long id) throws Exception;
 
     Result<String> changeSetmealStatus(int status,String id, long userId);
+
+    Result<List<Setmeal>> getCategoryList(Setmeal setmeal);
 }

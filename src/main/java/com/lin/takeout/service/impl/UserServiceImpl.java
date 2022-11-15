@@ -46,11 +46,11 @@ public class UserServiceImpl implements UserService {
                 user.setStatus(1);
                 user.setId(new SnowFlakeUtil().getNextId());
                 userMapper.insertOne(user);
-                request.getSession().setAttribute("phone",phone);
+                request.getSession().setAttribute("user",phone);
                 redisTemplate.delete(phone);
                 return Result.success("用户注册成功");
             }
-            request.getSession().setAttribute("phone",phone);
+            request.getSession().setAttribute("user",phone);
             redisTemplate.delete(phone);
             return Result.success("登录成功");
         }

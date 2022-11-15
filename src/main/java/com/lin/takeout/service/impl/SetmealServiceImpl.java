@@ -8,8 +8,10 @@ import com.lin.takeout.entity.Category;
 import com.lin.takeout.entity.Setmeal;
 import com.lin.takeout.entity.SetmealDish;
 import com.lin.takeout.mapper.CategoryMapper;
+import com.lin.takeout.mapper.DishMapper;
 import com.lin.takeout.mapper.SetmealDishMapper;
 import com.lin.takeout.mapper.SetmealMapper;
+import com.lin.takeout.service.CategoryService;
 import com.lin.takeout.service.CommonService;
 import com.lin.takeout.service.SetmealService;
 import org.apache.commons.lang.StringUtils;
@@ -33,6 +35,10 @@ public class SetmealServiceImpl implements SetmealService {
     CategoryMapper categoryMapper;
     @Autowired
     CommonService commonService;
+    @Autowired
+    CategoryService categoryService;
+    @Autowired
+    DishMapper dishMapper;
 
     @Override
     public Result<SetmealDto> getSetmealById(long id) {
@@ -119,6 +125,14 @@ public class SetmealServiceImpl implements SetmealService {
             }
         }
         return Result.success("修改成功");
+    }
+
+    @Override
+    public Result<List<Setmeal>> getCategoryList(Setmeal setmeal) {
+        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.eq(setmeal.getCategoryId() != null,Setmeal::getCategoryId,setmeal.getCategoryId());
+        List<Setmeal> list = setmealMapper.selectList(queryWrapper);
+        return Result.success(list);
     }
 
     @Override

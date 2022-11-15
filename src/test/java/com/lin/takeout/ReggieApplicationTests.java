@@ -6,10 +6,13 @@ import com.lin.takeout.service.EmployeeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 
 @SpringBootTest
 class ReggieApplicationTests {
 
+    @Autowired
+    RedisTemplate redisTemplate;
     @Autowired
     EmployeeService employeeService;
     @Autowired
@@ -18,14 +21,7 @@ class ReggieApplicationTests {
     CategoryMapper categoryMapper;
     @Test
     void contextLoads() {
-/*        Employee employee = new Employee();
-        employee.setId(1590674811368042497L);
-        employee.setStatus(1);
-        System.out.println(employeeMapper.updateEmployeeStatusById(employee));*/
 
-/*        System.out.println(categoryMapper.selectBySort(1));*/
-
-        /*System.out.println(categoryMapper.selectByType(1));*/
     }
 
 }

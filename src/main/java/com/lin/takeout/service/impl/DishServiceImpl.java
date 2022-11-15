@@ -86,9 +86,20 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public Result<List<Dish>> getDishByCategoryId(long categoryId) {
+    public Result<List<DishDto>> getDishByCategoryId(long categoryId) {
         List<Dish> list = dishMapper.selectByCategoryId(categoryId);
-        return Result.success(list);
+        List<DishDto> dishDtoList = list.stream().map((item) -> {
+            DishDto dishDto = new DishDto();
+            BeanUtils.copyProperties(item,dishDto);
+            dishDto.setFlavors(dishFlavorMapper.selectByDishId(dishDto.getId()));
+            Category category = new Category();
+            category.setId(dishDto.getCategoryId());
+            category = categoryMapper.selectById(category);
+            if (category != null)
+                dishDto.setCategoryName(category.getName());
+            return dishDto;
+        }).collect(Collectors.toList());
+        return Result.success(dishDtoList);
     }
 
     @Override
