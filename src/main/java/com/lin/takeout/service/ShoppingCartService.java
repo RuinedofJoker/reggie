@@ -9,7 +9,7 @@ public interface ShoppingCartService {
 
     Result<String> setCart(ShoppingCart shoppingCart,String phone);
 
-    Result<List<ShoppingCart>> getshoppingCart(String phone);
+    Result<List<ShoppingCart>> getShoppingCart(String phone);
 
     Result<String> removeCart(ShoppingCart shoppingCart,String phone);
 

@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
@@ -64,6 +65,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             if (localCart == null){
 
                 shoppingCart.setNumber(1);
+                shoppingCart.setId(shoppingCart.getSetmealId()+"+");
                 redisTemplate.opsForHash().put(phone,shoppingCart.getSetmealId()+"+",shoppingCart);
 
             }else {
@@ -80,6 +82,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             if (localCart == null){
 
                 shoppingCart.setNumber(1);
+                shoppingCart.setId(shoppingCart.getDishId()+"+"+shoppingCart.getDishFlavor());
                 redisTemplate.opsForHash().put(phone,shoppingCart.getDishId()+"+"+shoppingCart.getDishFlavor(),shoppingCart);
 
             }else {
@@ -89,6 +92,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
             }
         }
+
+        redisTemplate.expire(phone, 2, TimeUnit.DAYS);
         return Result.success("添加购物车成功");
     }
 
@@ -114,7 +119,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 }
             }else {
                 //由于前端页面设计缺陷，无法传递菜品偏好，因此直接删除所有相同菜品
-                /*if (key.equals(shoppingCart.getDishId()+"+"+shoppingCart.getDishFlavor())){
+/*                if (key.equals(shoppingCart.getDishId()+"+"+shoppingCart.getDishFlavor())){
                     redisTemplate.opsForHash().delete(phone,key);
                 }*/
                 String[] splitByAdd = key.split("\\+");
@@ -127,7 +132,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public Result<List<ShoppingCart>> getshoppingCart(String phone) {
+    public Result<List<ShoppingCart>> getShoppingCart(String phone) {
 
         Map<String,ShoppingCart> map = redisTemplate.opsForHash().entries(phone);
         List<ShoppingCart> list = new ArrayList<>();

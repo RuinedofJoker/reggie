@@ -1,3 +1,4 @@
+//f
 //获取所有地址
 function addressListApi() {
     return $axios({
@@ -14,6 +15,7 @@ function addressLastUpdateApi() {
     })
 }
 
+//
 //新增地址
 function  addAddressApi(data){
     return $axios({

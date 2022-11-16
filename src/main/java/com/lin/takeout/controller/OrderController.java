@@ -35,4 +35,9 @@ public class OrderController {
     public Result<String> changeStatus(@RequestBody Orders orders){
         return orderService.changeStatus(orders);
     }
+
+    @GetMapping("/userPage")
+    public Result<Page> getUserList(int page, int pageSize){
+        return orderService.getOrderPageList(page,pageSize,null,null,null);
+    }
 }

@@ -20,7 +20,7 @@ public class ShoppingCartController {
     public Result<List<ShoppingCart>> getCategory(HttpServletRequest request){
         //String userId = (String) request.getSession().getAttribute("user");
         String userId = "616401600@qq.com";
-        return shoppingCartService.getshoppingCart(userId);
+        return shoppingCartService.getShoppingCart(userId);
     }
 
     /*
