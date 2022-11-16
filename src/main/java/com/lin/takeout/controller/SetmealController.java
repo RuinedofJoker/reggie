@@ -8,7 +8,6 @@ import com.lin.takeout.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -19,36 +18,33 @@ public class SetmealController {
     SetmealService setmealService;
 
     @GetMapping("/page")
-    public Result<Page> getSetmealList(int page,int pageSize,String name){
-        return setmealService.getSetmealPageList(page,pageSize,name);
+    public Result<Page> getSetmealPage(int page,int pageSize,String name){
+        return setmealService.getSetmealPage(page,pageSize,name);
     }
 
     @PostMapping
-    public Result<String> addSetmeal(@RequestBody SetmealDto setmealDto, HttpServletRequest request){
-        long userId = (long) request.getSession().getAttribute("employee");
-        return setmealService.setSetmeal(setmealDto,userId);
+    public Result<String> addSetmeal(@RequestBody SetmealDto setmealDto){
+        return setmealService.saveSetmeal(setmealDto);
     }
 
     @GetMapping("/{id}")
-    public Result<SetmealDto> getSetmealById(@PathVariable long id){
+    public Result<SetmealDto> querySetmealById(@PathVariable long id){
         return setmealService.getSetmealById(id);
     }
 
     @PutMapping
-    public Result<String> changeSetmeal(@RequestBody SetmealDto setmealDto, HttpServletRequest request) throws Exception{
-        long userId = (long) request.getSession().getAttribute("employee");
-        return setmealService.changeSetmealById(setmealDto,userId);
+    public Result<String> editSetmeal(@RequestBody SetmealDto setmealDto) throws Exception{
+        return setmealService.updateSetmealById(setmealDto);
     }
 
     @DeleteMapping
-    public Result<String> deleteSetmeal(long ids) throws Exception{
+    public Result<String> deleteSetmeal(String ids) throws Exception{
         return setmealService.deleteSetmealById(ids);
     }
 
     @PostMapping("/status/{status}")
-    public Result<String> changeSetmealStatus(@PathVariable int status, String ids, HttpServletRequest request){
-        long userId = (long) request.getSession().getAttribute("employee");
-        return setmealService.changeSetmealStatus(status,ids,userId);
+    public Result<String> setmealStatusByStatus(@PathVariable int status, String ids){
+        return setmealService.updateSetmealStatus(status,ids);
     }
 
     @GetMapping("/list")

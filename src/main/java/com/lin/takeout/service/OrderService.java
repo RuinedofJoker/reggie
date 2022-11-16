@@ -7,7 +7,7 @@ import com.lin.takeout.entity.Orders;
 
 public interface OrderService {
 
-    Result<Page> getOrderPageList(int page, int pageSize, String number, String beginTime, String endTime);
+    Result<Page> getOrderPage(int page, int pageSize, String number, String beginTime, String endTime);
 
-    Result<String> changeStatus(Orders orders);
+    Result<String> updateStatus(Orders orders);
 }

@@ -10,15 +10,15 @@ public interface DishService {
 
     Result<Page> getDishPageList(int page, int pageSize, String name);
 
-    Result<String> addDish(DishDto dishDto,long userId);
+    Result<String> saveDish(DishDto dishDto);
 
-    Result<String> deleteDishById(long id) throws Exception;
+    Result<String> deleteDishById(String id) throws Exception;
 
     Result<DishDto> getDishById(long id);
 
-    Result<String> changeDish(DishDto dishDto,long userId) throws Exception ;
+    Result<String> updateDish(DishDto dishDto) throws Exception ;
 
-    Result<String> changeDishStatus(int status,long id);
+    Result<String> updateDishStatus(int status,String id);
 
     Result<List<DishDto>> getDishByCategoryId(long categoryId);
 }

@@ -22,6 +22,22 @@ class ReggieApplicationTests {
     @Test
     void contextLoads() {
 
+/*        MyThread myThread1 = new MyThread();
+        MyThread myThread2 = new MyThread();
+        MyThread myThread3 = new MyThread();
+
+        myThread1.setName("1号线程");
+        myThread1.setId(1);
+
+        myThread2.setName("2号线程");
+        myThread2.setId(2);
+
+        myThread3.setName("3号线程");
+        myThread3.setId(3);
+
+        myThread1.start();
+        myThread2.start();
+        myThread3.start();*/
     }
 
 }

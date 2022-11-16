@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+//该类为图片文件操作类
 @RestController
 @RequestMapping("/common")
 public class CommonContorller {
@@ -19,13 +20,16 @@ public class CommonContorller {
     @Autowired
     CommonService commonService;
 
+    //下载文件
     @GetMapping("/download")
-    public void download(String name, HttpServletResponse response) throws Exception {
+    public void commonDownload(String name, HttpServletResponse response) throws Exception {
+
         ServletOutputStream outputStream = response.getOutputStream();
         response.setContentType("image/jpeg");
         commonService.getImg(name,outputStream);
     }
 
+    //上传文件
     @PostMapping("/upload")
     public Result<String> upload(MultipartFile file) throws Exception {
         return commonService.uploadImg(file);

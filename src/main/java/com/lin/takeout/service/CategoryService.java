@@ -7,13 +7,13 @@ import com.lin.takeout.entity.Category;
 import java.util.List;
 
 public interface CategoryService {
-    Result<Page> getPage(int page, int pageSize);
+    Result<Page> getCategoryPage(int page, int pageSize);
 
-    Result setCategory(Category category);
+    Result saveCategory(Category category);
 
-    Result changeCategory(Category category);
+    Result updateCategory(Category category);
 
-    Result deleteCategoryById(long id);
+    Result removeCategoryById(long id) throws Exception;
 
     Result<List<Category>> getCategoryByType(int type);
 

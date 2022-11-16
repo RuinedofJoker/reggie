@@ -9,17 +9,17 @@ import java.util.List;
 
 public interface SetmealService {
 
-    Result<Page> getSetmealPageList(int page, int pageSize,String name);
+    Result<Page> getSetmealPage(int page, int pageSize,String name);
 
-    Result<String> setSetmeal(SetmealDto setmealDto,long userId);
+    Result<String> saveSetmeal(SetmealDto setmealDto);
 
     Result<SetmealDto> getSetmealById(long id);
 
-    Result<String> changeSetmealById(SetmealDto setmealDto,long userId) throws Exception;
+    Result<String> updateSetmealById(SetmealDto setmealDto) throws Exception;
 
-    Result<String> deleteSetmealById(long id) throws Exception;
+    Result<String> deleteSetmealById(String id) throws Exception;
 
-    Result<String> changeSetmealStatus(int status,String id, long userId);
+    Result<String> updateSetmealStatus(int status,String id);
 
     Result<List<Setmeal>> getCategoryList(Setmeal setmeal);
 }

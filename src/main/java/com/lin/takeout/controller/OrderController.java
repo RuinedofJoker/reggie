@@ -27,17 +27,17 @@ public class OrderController {
         2022-12-16 23:59:59
     */
     @GetMapping("/page")
-    public Result<Page> getOrderList(int page, int pageSize, String number, String beginTime, String endTime){
-        return orderService.getOrderPageList(page,pageSize,number,beginTime,endTime);
+    public Result<Page> getOrderDetailPage(int page, int pageSize, String number, String beginTime, String endTime){
+        return orderService.getOrderPage(page,pageSize,number,beginTime,endTime);
     }
 
     @PutMapping
-    public Result<String> changeStatus(@RequestBody Orders orders){
-        return orderService.changeStatus(orders);
+    public Result<String> editOrderDetail(@RequestBody Orders orders){
+        return orderService.updateStatus(orders);
     }
 
     @GetMapping("/userPage")
-    public Result<Page> getUserList(int page, int pageSize){
-        return orderService.getOrderPageList(page,pageSize,null,null,null);
+    public Result<Page> orderPaging(int page, int pageSize){
+        return orderService.getOrderPage(page,pageSize,null,null,null);
     }
 }

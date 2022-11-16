@@ -2,7 +2,9 @@ package com.lin.takeout.filter;
 
 
 import com.alibaba.fastjson.JSON;
+import com.lin.takeout.common.GetIdByThreadLocal;
 import com.lin.takeout.common.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.*;
@@ -12,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebFilter(urlPatterns = "/*")
+@Slf4j
+@WebFilter(filterName = "loginCheckFilter",urlPatterns = "/*")
 public class LoginCheckFilter implements Filter {
 
     private static AntPathMatcher PATH_MATCHER = new AntPathMatcher();
@@ -33,7 +36,8 @@ public class LoginCheckFilter implements Filter {
                 "/doc.html",
                 "/webjars/**",
                 "/swagger-resources",
-                "/v2/api-docs"
+                "/v2/api-docs",
+                "/"
         };
 
         boolean match = check(urls, request.getRequestURI());
@@ -45,19 +49,17 @@ public class LoginCheckFilter implements Filter {
         }
 
         //判断是否为员工登录
-        if (request.getSession() != null){
-            if (request.getSession().getAttribute("employee") != null){
-                filterChain.doFilter(request,response);
-                return;
-            }
+        if (request.getSession().getAttribute("employee") != null){
+            GetIdByThreadLocal.getThreadLocal((long)request.getSession().getAttribute("employee"));
+            filterChain.doFilter(request,response);
+            return;
         }
 
         //判断是否为用户登录
-        if (request.getSession() != null){
-            if (request.getSession().getAttribute("user") != null){
-                filterChain.doFilter(request,response);
-                return;
-            }
+        if (request.getSession().getAttribute("user") != null){
+            GetIdByThreadLocal.getThreadLocal((long) request.getSession().getAttribute("user"));
+            filterChain.doFilter(request,response);
+            return;
         }
 
         //用户未登录

@@ -20,25 +20,35 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderMapper orderMapper;
 
+    //订单的分页查询
     @Override
-    public Result<Page> getOrderPageList(int page, int pageSize, String number, String beginTime, String endTime) {
+    public Result<Page> getOrderPage(int page, int pageSize, String number, String beginTime, String endTime) {
+
+        //定义订单的时间范围
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime beginTimeChanged = null;
         LocalDateTime endTimeChanged = null;
+
         Page pageInfo = new Page<Dish>(page,pageSize);
-        if (StringUtils.isNotEmpty(beginTime)) beginTimeChanged = LocalDateTime.parse(beginTime,dateFormat);
-        if (StringUtils.isNotEmpty(endTime)) endTimeChanged = LocalDateTime.parse(endTime,dateFormat);
+        if (StringUtils.isNotEmpty(beginTime))
+            beginTimeChanged = LocalDateTime.parse(beginTime,dateFormat);
+        if (StringUtils.isNotEmpty(endTime))
+            endTimeChanged = LocalDateTime.parse(endTime,dateFormat);
+
         LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(StringUtils.isNotEmpty(number),Orders::getNumber,number);
         queryWrapper.orderByDesc(Orders::getOrderTime);
         queryWrapper.ge(StringUtils.isNotEmpty(beginTime),Orders::getOrderTime,beginTimeChanged);
         queryWrapper.le(StringUtils.isNotEmpty(endTime),Orders::getOrderTime,endTimeChanged);
+
         orderMapper.selectPage(pageInfo,queryWrapper);
+
         return Result.success(pageInfo);
     }
 
+    //修改订单状态
     @Override
-    public Result<String> changeStatus(Orders orders) {
+    public Result<String> updateStatus(Orders orders) {
         orderMapper.updateStatus(orders.getStatus());
         return Result.success("修改成功");
     }

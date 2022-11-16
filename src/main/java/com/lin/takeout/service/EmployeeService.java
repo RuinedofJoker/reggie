@@ -9,11 +9,11 @@ public interface EmployeeService extends IService<Employee> {
 
     Result<Employee> login(Employee employee);
 
-    Result getEmployeePageList(int page,int pageSize,String name);
+    Result getEmployeePage(int page,int pageSize,String name);
 
-    Result<String> addEmployee(Employee employee,long createUser);
+    Result<String> saveEmployee(Employee employee);
 
-    Result<String> changeEmployeeInfo(Employee employee);
+    Result<String> updateEmployeeInfo(Employee employee);
 
     Result<Employee> getEmployeeById(long id);
 }

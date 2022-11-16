@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -21,43 +20,32 @@ public class CategoryController {
 
     @GetMapping("/page")
     public Result<Page> getCategoryList(int page, int pageSize){
-        return categoryService.getPage(page,pageSize);
+        return categoryService.getCategoryPage(page,pageSize);
     }
 
-/*  菜品type为1
-    套餐type为2
-    {分类名称name: "1", type: "2", 排序sort: "1"}*/
+    /*
+        菜品type为1
+        套餐type为2
+        {分类名称name: "1", type: "2", 排序sort: "1"}
+    */
     @PostMapping
-    public Result addCategory(@RequestBody Category category, HttpServletRequest request){
-        Long createUserId = (Long) request.getSession().getAttribute("employee");
-        category.setCreateUser(createUserId);
-        category.setUpdateUser(createUserId);
-        category.setCreateTime(LocalDateTime.now());
-        category.setUpdateTime(LocalDateTime.now());
-
-        return categoryService.setCategory(category);
+    public Result addCategory(@RequestBody Category category){
+        return categoryService.saveCategory(category);
     }
 
     @PutMapping
-    public Result changeCategoryImfo(@RequestBody Category category, HttpServletRequest request){
-        Long createUserId = (Long) request.getSession().getAttribute("employee");
-        category.setCreateUser(createUserId);
-        category.setUpdateUser(createUserId);
-        category.setCreateTime(LocalDateTime.now());
-        category.setUpdateTime(LocalDateTime.now());
-
-        return categoryService.changeCategory(category);
+    public Result editCategory(@RequestBody Category category){
+        return categoryService.updateCategory(category);
     }
 
     @DeleteMapping
-    public Result deleteCategory(@RequestParam long id){
-        return categoryService.deleteCategoryById(id);
+    public Result deleCategory(@RequestParam long id) throws Exception{
+        return categoryService.removeCategoryById(id);
     }
 
     @GetMapping("/list")
-    public Result<List<Category>> getCategoryByType(HttpServletRequest request){
+    public Result<List<Category>> getCategoryList(HttpServletRequest request){
 
-        //http://localhost:8080/category/list?type=2&page=1&pageSize=1000
         String type = request.getParameter("type");
         int typeChaged;
         if (StringUtils.isNotEmpty(type)){

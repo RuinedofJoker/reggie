@@ -7,7 +7,6 @@ import com.lin.takeout.service.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -18,18 +17,17 @@ public class DishController {
     DishService dishService;
 
     @GetMapping("/page")
-    public Result<Page> getDishList(int page,int pageSize,String name){
+    public Result<Page> getDishPage(int page,int pageSize,String name){
         return dishService.getDishPageList(page,pageSize,name);
     }
 
     @PostMapping
-    public Result<String> addDish(@RequestBody DishDto dishDto, HttpServletRequest request){
-        long userId = (long) request.getSession().getAttribute("employee");
-        return dishService.addDish(dishDto,userId);
+    public Result<String> addDish(@RequestBody DishDto dishDto){
+        return dishService.saveDish(dishDto);
     }
 
     @DeleteMapping
-    public Result<String> deleteDish(long ids) throws Exception{
+    public Result<String> deleteDish(String ids) throws Exception{
         return dishService.deleteDishById(ids);
     }
 
@@ -39,18 +37,17 @@ public class DishController {
     }
 
     @PutMapping
-    public Result<String> putDish(@RequestBody DishDto dishDto, HttpServletRequest request) throws Exception {
-        long userId = (long) request.getSession().getAttribute("employee");
-        return dishService.changeDish(dishDto,userId);
+    public Result<String> editDish(@RequestBody DishDto dishDto) throws Exception {
+        return dishService.updateDish(dishDto);
     }
 
     @PostMapping("/status/{status}")
-    public Result<String> changeDishStatus(@PathVariable int status,long ids){
-        return dishService.changeDishStatus(status,ids);
+    public Result<String> dishStatusByStatus(@PathVariable int status,String ids){
+        return dishService.updateDishStatus(status,ids);
     }
 
     @GetMapping("/list")
-    public Result<List<DishDto>> getDishByCategoryId(long categoryId){
+    public Result<List<DishDto>> queryDishList(long categoryId){
         return dishService.getDishByCategoryId(categoryId);
     }
 }

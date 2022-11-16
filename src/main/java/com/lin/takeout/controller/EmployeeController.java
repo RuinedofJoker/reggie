@@ -22,8 +22,8 @@ public class EmployeeController {
     public Result<Employee> login(HttpServletRequest request, @RequestBody Employee employee){
         Result result = employeeService.login(employee);
         employee = (Employee)result.getData();
-        Long empID = employee.getId();
-        request.getSession().setAttribute("employee",empID);
+        if (employee.getId() != null)
+            request.getSession().setAttribute("employee",employee.getId());
         return result;
     }
 
@@ -37,19 +37,19 @@ public class EmployeeController {
     //查询所有员工/查询所有name=此name的员工，并采用分页方式上传
     @GetMapping("/page")
     public Result<Page> getEmployeeList(int page,int pageSize,String name){
-        return employeeService.getEmployeePageList(page,pageSize,name);
+        return employeeService.getEmployeePage(page,pageSize,name);
     }
 
     //添加员工
     @PostMapping
-    public Result<String> addEmployee(HttpServletRequest request,@RequestBody Employee employee){
-        return employeeService.addEmployee(employee,(Long)request.getSession().getAttribute("employee"));
+    public Result<String> addEmployee(@RequestBody Employee employee){
+        return employeeService.saveEmployee(employee);
     }
 
     //修改员工状态
     @PutMapping
-    public Result<String> enableOrDisableEmployee(@RequestBody Employee employee){
-        return employeeService.changeEmployeeInfo(employee);
+    public Result<String> editEmployee(@RequestBody Employee employee){
+        return employeeService.updateEmployeeInfo(employee);
     }
 
     //查询员工
