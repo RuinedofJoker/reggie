@@ -7,6 +7,8 @@ import com.lin.takeout.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -14,18 +16,6 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    /*
-        page:
-        1
-        pageSize:
-        10
-        number:
-        11
-        beginTime:
-        2022-11-16 00:00:00
-        endTime:
-        2022-12-16 23:59:59
-    */
     @GetMapping("/page")
     public Result<Page> getOrderDetailPage(int page, int pageSize, String number, String beginTime, String endTime){
         return orderService.getOrderPage(page,pageSize,number,beginTime,endTime);
@@ -39,5 +29,15 @@ public class OrderController {
     @GetMapping("/userPage")
     public Result<Page> orderPaging(int page, int pageSize){
         return orderService.getOrderPage(page,pageSize,null,null,null);
+    }
+
+    @PostMapping("/submit")
+    public Result<String> addOrder(@RequestBody Map map){
+        return orderService.saveOrder(map);
+    }
+
+    @PostMapping("/again")
+    public Result<String> orderAgain(@RequestBody Orders orders){
+        return orderService.saveOrderAgain(orders.getId());
     }
 }
