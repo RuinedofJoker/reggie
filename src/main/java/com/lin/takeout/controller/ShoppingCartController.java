@@ -17,35 +17,22 @@ public class ShoppingCartController {
     @Autowired
     ShoppingCartService shoppingCartService;
     @GetMapping("/list")
-    public Result<List<ShoppingCart>> getCategory(HttpServletRequest request){
-        //String userId = (String) request.getSession().getAttribute("user");
-        String userId = "616401600@qq.com";
-        return shoppingCartService.getShoppingCart(userId);
+    public Result<List<ShoppingCart>> getCategory(){
+        return shoppingCartService.getShoppingCart();
     }
 
-    /*
-                amount:item.price/100,//金额
-                dishFlavor:item.dishFlavor,//口味  如果没有传undefined
-                dishId:undefined,//菜品id
-                setmealId:undefined,//套餐id
-                name:item.name,
-                image:item.image
-    */
     @PostMapping("/add")
-    public Result<String> addCart(@RequestBody ShoppingCart shoppingCart, HttpServletRequest request){
-        String user = (String) request.getSession().getAttribute("user");
-        return shoppingCartService.setCart(shoppingCart,user);
+    public Result<String> addCart(@RequestBody ShoppingCart shoppingCart){
+        return shoppingCartService.setCart(shoppingCart);
     }
 
     @PostMapping("/sub")
-    public Result<String> subCart(@RequestBody ShoppingCart shoppingCart, HttpServletRequest request){
-        String user = (String) request.getSession().getAttribute("user");
-        return shoppingCartService.removeCart(shoppingCart,user);
+    public Result<String> subCart(@RequestBody ShoppingCart shoppingCart){
+        return shoppingCartService.removeCart(shoppingCart);
     }
 
     @DeleteMapping("/clean")
     public Result<String> cleanCart(HttpServletRequest request){
-        String user = (String) request.getSession().getAttribute("user");
-        return shoppingCartService.cleanCart(user);
+        return shoppingCartService.cleanCart();
     }
 }

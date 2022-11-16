@@ -17,9 +17,8 @@ public class AddressBookController {
     AddressBookService addressBookService;
 
     @GetMapping("/list")
-    public Result<List<AddressBook>> addressList(HttpServletRequest request){
-        String phone = (String) request.getSession().getAttribute("user");
-        return addressBookService.getAddressBookList(phone);
+    public Result<List<AddressBook>> addressList(){
+        return addressBookService.getAddressBookList();
     }
 
     @PostMapping

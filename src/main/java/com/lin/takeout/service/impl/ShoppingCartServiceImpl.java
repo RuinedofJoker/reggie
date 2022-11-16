@@ -1,9 +1,8 @@
 package com.lin.takeout.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.lin.takeout.common.GetIdByThreadLocal;
 import com.lin.takeout.common.Result;
 import com.lin.takeout.entity.ShoppingCart;
-import com.lin.takeout.entity.User;
 import com.lin.takeout.mapper.DishMapper;
 import com.lin.takeout.mapper.SetmealMapper;
 import com.lin.takeout.mapper.UserMapper;
@@ -31,82 +30,74 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Autowired
     UserMapper userMapper;
 
+    //添加菜品到购物车
     @Override
-    public Result<String> setCart(ShoppingCart shoppingCart,String phone) {
+    public Result<String> setCart(ShoppingCart shoppingCart) {
 
     /*
         Redis ShoppingCart 格式：
         使用hash格式存储
-        key为phone从session.getAttribute("user")获取
+        key为userId从session.getAttribute("user")获取
         hashKey为菜品id/套餐id+口味（+为分割符，套餐没有口味但也有+）
         value就是ShoppingCart对象
     */
-        /*
-            amount: 78
-            dishFlavor: "不要辣,不辣"
-            dishId: "1397849739276890114"
-            image: "f966a38e-0780-40be-bb52-5699d13cb3d9.jpg"
-            name: "辣子鸡"
-        */
         ShoppingCart localCart = null;
         shoppingCart.setCreateTime(LocalDateTime.now());
 
-        User user = null;
-        LambdaQueryWrapper<User> userQueryWrapper = new LambdaQueryWrapper();
-        userQueryWrapper.eq(User::getPhone,phone);
-        user = userMapper.selectOne(userQueryWrapper);
-        shoppingCart.setUserId(user.getId());
+        shoppingCart.setUserId(GetIdByThreadLocal.getId());
 
         if (shoppingCart.getSetmealId() != null){
 
             shoppingCart.setSetmealId(setmealMapper.selectByName(shoppingCart.getName()).getId());
-            localCart = (ShoppingCart) redisTemplate.opsForHash().get(phone, shoppingCart.getSetmealId()+"+");
+            localCart = (ShoppingCart) redisTemplate.opsForHash().get(GetIdByThreadLocal.getId(), shoppingCart.getSetmealId()+"+");
 
             if (localCart == null){
 
                 shoppingCart.setNumber(1);
                 shoppingCart.setId(shoppingCart.getSetmealId()+"+");
-                redisTemplate.opsForHash().put(phone,shoppingCart.getSetmealId()+"+",shoppingCart);
+                redisTemplate.opsForHash().put(GetIdByThreadLocal.getId(),shoppingCart.getSetmealId()+"+",shoppingCart);
 
             }else {
 
                 shoppingCart.setNumber(localCart.getNumber()+1);
-                redisTemplate.opsForHash().put(phone,shoppingCart.getSetmealId()+"+",shoppingCart);
+                redisTemplate.opsForHash().put(GetIdByThreadLocal.getId(),shoppingCart.getSetmealId()+"+",shoppingCart);
 
             }
 
         }else if (shoppingCart.getDishId() != null){
 
             shoppingCart.setDishId(dishMapper.selectByName(shoppingCart.getName()).getId());
-            localCart = (ShoppingCart) redisTemplate.opsForHash().get(phone, shoppingCart.getDishId()+"+"+shoppingCart.getDishFlavor());
+            localCart = (ShoppingCart) redisTemplate.opsForHash().get(GetIdByThreadLocal.getId(), shoppingCart.getDishId()+"+"+shoppingCart.getDishFlavor());
             if (localCart == null){
 
                 shoppingCart.setNumber(1);
                 shoppingCart.setId(shoppingCart.getDishId()+"+"+shoppingCart.getDishFlavor());
-                redisTemplate.opsForHash().put(phone,shoppingCart.getDishId()+"+"+shoppingCart.getDishFlavor(),shoppingCart);
+                redisTemplate.opsForHash().put(GetIdByThreadLocal.getId(),shoppingCart.getDishId()+"+"+shoppingCart.getDishFlavor(),shoppingCart);
 
             }else {
 
                 shoppingCart.setNumber(localCart.getNumber()+1);
-                redisTemplate.opsForHash().put(phone,shoppingCart.getDishId()+"+"+shoppingCart.getDishFlavor(),shoppingCart);
+                redisTemplate.opsForHash().put(GetIdByThreadLocal.getId(),shoppingCart.getDishId()+"+"+shoppingCart.getDishFlavor(),shoppingCart);
 
             }
         }
 
-        redisTemplate.expire(phone, 2, TimeUnit.DAYS);
+        redisTemplate.expire(GetIdByThreadLocal.getId(), 2, TimeUnit.DAYS);
         return Result.success("添加购物车成功");
     }
 
+    //清空购物车
     @Override
-    public Result<String> cleanCart(String phone) {
-        redisTemplate.delete(phone);
+    public Result<String> cleanCart() {
+        redisTemplate.delete(GetIdByThreadLocal.getId());
         return Result.success("删除成功");
     }
 
+    //根据购物车菜品id清除购物车
     @Override
-    public Result<String> removeCart(ShoppingCart shoppingCart, String phone) {
+    public Result<String> removeCart(ShoppingCart shoppingCart) {
 
-        Map<String,ShoppingCart> map = redisTemplate.opsForHash().entries(phone);
+        Map<String,ShoppingCart> map = redisTemplate.opsForHash().entries(GetIdByThreadLocal.getId());
 
         boolean isSetmeal = true;
         if (shoppingCart.getSetmealId() == null) isSetmeal=false;
@@ -115,7 +106,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
             if (isSetmeal){
                 if (key.equals(shoppingCart.getSetmealId()+"+")){
-                    redisTemplate.opsForHash().delete(phone,key);
+                    redisTemplate.opsForHash().delete(GetIdByThreadLocal.getId(),key);
                 }
             }else {
                 //由于前端页面设计缺陷，无法传递菜品偏好，因此直接删除所有相同菜品
@@ -124,17 +115,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 }*/
                 String[] splitByAdd = key.split("\\+");
                 if (splitByAdd[0].equals(shoppingCart.getDishId()+"")){
-                    redisTemplate.opsForHash().delete(phone,key);
+                    redisTemplate.opsForHash().delete(GetIdByThreadLocal.getId(),key);
                 }
             }
         }
         return Result.success("删除成功");
     }
 
+    //查询购物车内所有物品
     @Override
-    public Result<List<ShoppingCart>> getShoppingCart(String phone) {
+    public Result<List<ShoppingCart>> getShoppingCart() {
 
-        Map<String,ShoppingCart> map = redisTemplate.opsForHash().entries(phone);
+        Map<String,ShoppingCart> map = redisTemplate.opsForHash().entries(GetIdByThreadLocal.getId());
         List<ShoppingCart> list = new ArrayList<>();
         for (String key:map.keySet()) {
 

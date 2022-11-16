@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface ShoppingCartService {
 
-    Result<String> setCart(ShoppingCart shoppingCart,String phone);
+    Result<String> setCart(ShoppingCart shoppingCart);
 
-    Result<List<ShoppingCart>> getShoppingCart(String phone);
+    Result<List<ShoppingCart>> getShoppingCart();
 
-    Result<String> removeCart(ShoppingCart shoppingCart,String phone);
+    Result<String> removeCart(ShoppingCart shoppingCart);
 
-    Result<String> cleanCart(String phone);
+    Result<String> cleanCart();
 }
