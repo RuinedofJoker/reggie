@@ -11,6 +11,7 @@ import com.lin.takeout.service.EmployeeService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 
@@ -68,6 +69,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper,Employee> im
 
     //修改员工信息
     @Override
+    @Transactional
     public Result<String> updateEmployeeInfo(Employee employee) {
 
         long id = GetIdByThreadLocal.getId();
@@ -89,6 +91,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper,Employee> im
     }
 
     //添加员工信息
+    @Transactional
     public Result saveEmployee(Employee employee){
 
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));

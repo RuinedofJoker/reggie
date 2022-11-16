@@ -20,14 +20,14 @@ public class UserController {
 
     @PostMapping("/login")
     public Result<String> login(@RequestBody Map map, HttpServletRequest request){
-        String phone = (String) map.get("phone");
+/*        String phone = (String) map.get("phone");
         String code = (String) map.get("code");
-        return userService.checkUserLogin(phone,code,request);
+        return userService.checkUserLogin(phone,code,request);*/
 
         //模拟简化登录
-/*        long userId = 1579243405687934976L;
+        long userId = 1592803550013005825L;
         request.getSession().setAttribute("user",userId);
-        return Result.success("登录成功");*/
+        return Result.success("登录成功");
     }
 
     @PostMapping("/sendMsg")

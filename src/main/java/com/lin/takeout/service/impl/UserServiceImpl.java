@@ -56,15 +56,19 @@ public class UserServiceImpl implements UserService {
             if (user.getId() == null){
 
                 loginUser.setName(loginUser.getPhone());
+                loginUser.setStatus(1);
                 userMapper.insert(loginUser);
                 request.getSession().setAttribute("user",userMapper.selectByPhone(phone).getId());
                 return Result.success("登录成功");
 
             }else {
 
-                request.getSession().setAttribute("user",user.getId());
-                return Result.success("登录成功");
+                if (user.getStatus() == 1){
+                    request.getSession().setAttribute("user",user.getId());
+                    return Result.success("登录成功");
+                }
 
+                return Result.error("用户已被禁用");
             }
 
         }else {

@@ -10,6 +10,7 @@ import com.lin.takeout.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     //添加菜品到购物车
     @Override
+    @Transactional
     public Result<String> setCart(ShoppingCart shoppingCart) {
 
     /*
@@ -95,6 +97,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     //根据购物车菜品id清除购物车
     @Override
+    @Transactional
     public Result<String> removeCart(ShoppingCart shoppingCart) {
 
         Map<String,ShoppingCart> map = redisTemplate.opsForHash().entries(GetIdByThreadLocal.getId());

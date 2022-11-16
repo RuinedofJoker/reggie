@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.takeout.common.Result;
 import com.lin.takeout.dto.SetmealDto;
 import com.lin.takeout.entity.Setmeal;
+import com.lin.takeout.entity.SetmealDish;
 import com.lin.takeout.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -50,5 +51,10 @@ public class SetmealController {
     @GetMapping("/list")
     public Result<List<Setmeal>> getCategory(Setmeal setmeal){
         return setmealService.getCategoryList(setmeal);
+    }
+
+    @GetMapping("/dish/{id}")
+    public Result<List<SetmealDish>> getMealDishDetails(@PathVariable long id){
+        return setmealService.getMealDishDetails(id);
     }
 }

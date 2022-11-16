@@ -211,4 +211,9 @@ public class SetmealServiceImpl implements SetmealService {
 
         return Result.success("更改成功");
     }
+
+    @Override
+    public Result<List<SetmealDish>> getMealDishDetails(long id) {
+        return Result.success(getSetmealById(id).getData().getSetmealDishes());
+    }
 }

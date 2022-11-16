@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.takeout.common.Result;
 import com.lin.takeout.dto.SetmealDto;
 import com.lin.takeout.entity.Setmeal;
+import com.lin.takeout.entity.SetmealDish;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface SetmealService {
     Result<String> updateSetmealStatus(int status,String id);
 
     Result<List<Setmeal>> getCategoryList(Setmeal setmeal);
+
+    Result<List<SetmealDish>> getMealDishDetails(long id);
 }

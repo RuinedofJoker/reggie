@@ -80,6 +80,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     //添加菜品分类
     @Override
+    @Transactional
     public Result saveCategory(Category category) {
 
         if (categoryMapper.selectBySort(category.getSort()) != null)
@@ -93,6 +94,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     ///修改菜品分类
     @Override
+    @Transactional
     public Result updateCategory(Category category) {
 
         if (categoryMapper.selectBySort(category.getSort()) != null)

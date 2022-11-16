@@ -6,7 +6,6 @@ import com.lin.takeout.service.AddressBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -22,7 +21,32 @@ public class AddressBookController {
     }
 
     @PostMapping
-    public void addAddress(@RequestBody AddressBook addressBook){
-        return;
+    public Result<String> addAddress(@RequestBody AddressBook addressBook){
+        return addressBookService.saveAddressBook(addressBook);
+    }
+
+    @PutMapping("/default")
+    public Result<String> setDefaultAddress(@RequestBody AddressBook addressBook){
+        return addressBookService.updateDefaultAddress(addressBook);
+    }
+
+    @GetMapping("/{id}")
+    public Result<AddressBook> addressFindOne(@PathVariable long id){
+        return addressBookService.getaddressOne(id);
+    }
+
+    @PutMapping
+    public Result<String> updateAddress(@RequestBody AddressBook addressBook){
+        return addressBookService.updateAddress(addressBook);
+    }
+
+    @DeleteMapping
+    public Result<String> deleteAddress(long ids){
+        return addressBookService.removeAddress(ids);
+    }
+
+    @GetMapping("/default")
+    public Result<AddressBook> getDefaultAddress(){
+        return addressBookService.getDefaultAddress();
     }
 }
