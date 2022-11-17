@@ -17,11 +17,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
-/**
- * 对象映射器:基于jackson将Java对象转为json，或者将json转为Java对象
- * 将JSON解析为Java对象的过程称为 [从JSON反序列化Java对象]
- * 从Java对象生成JSON的过程称为 [序列化Java对象到JSON]
- */
+//该类用来配置json的序列化器，来解决例如前端接收long类型（前端number类型只能接收16位）数据出现精度丢失问题（传输json格式数据时将里面的所有long类型改为string类型）
 public class JacksonObjectMapper extends ObjectMapper {
 
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";

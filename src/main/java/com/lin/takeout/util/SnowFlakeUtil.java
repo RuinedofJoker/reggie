@@ -2,7 +2,10 @@ package com.lin.takeout.util;
 
 import java.util.Random;
 
-//雪花算法工具类
+/*雪花算法工具类(目前没有使用到，但可以通过
+SnowFlakeUtil.getSnowFlake()
+来生成一个long类型的19位的随机数，需要自取*/
+
 public class SnowFlakeUtil {
     // 起始时间戳
     private final static long START_STMP = 1480166465631L;
@@ -27,7 +30,7 @@ public class SnowFlakeUtil {
     private long sequence = 0L; // 序列号
     private long lastStmp = -1L; // 上次的时间戳
 
-    public SnowFlakeUtil() {
+    private SnowFlakeUtil() {
         long datacenterId = new Random().nextInt(63);
         long machineId = new Random().nextInt(31);
         if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0)
@@ -83,5 +86,11 @@ public class SnowFlakeUtil {
     private long getNewstmp()
     {
         return System.currentTimeMillis();
+    }
+
+    //封装获取随机数的静态方法
+    public static long getSnowFlake(){
+        SnowFlakeUtil snowFlakeUtil = new SnowFlakeUtil();
+        return snowFlakeUtil.getNextId();
     }
 }

@@ -1,5 +1,5 @@
 #一些本地的配置，直接将本文件后缀名txt去掉后在填入相应信息即可
-spring.shardingsphere.datasource.master.url=
+spring.shardingsphere.datasource.master.url=jdbc:mysql://127.0.0.1:3306/数据库名?characterEncoding=utf-8
 spring.shardingsphere.datasource.master.username=
 spring.shardingsphere.datasource.master.password=
 spring.shardingsphere.datasource.slave.url=jdbc:mysql://127.0.0.1:3306/数据库名?characterEncoding=utf-8
@@ -15,3 +15,5 @@ mail.username=用户qq邮箱
 mail.password=qq邮箱授权码
 
 mail.sender=邮件发送者
+
+local.img=
