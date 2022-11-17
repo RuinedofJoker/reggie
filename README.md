@@ -4,7 +4,13 @@
 # 延伸阅读
 #### 项目如何运行：
 
-1. 将resources目录下的application.properties.txt文件的.txt后缀名去掉，并填入自己的配置
+1. 将resources目录下的application.properties.txt文件的.txt后缀名去掉，并填入自己的配置，并在idea的项目结构中加入此配置文件
+
+![1](https://user-images.githubusercontent.com/115681510/202352652-f261e36b-955b-4f70-8fb4-5d0d1a1d69a3.png)
+![2](https://user-images.githubusercontent.com/115681510/202352663-50a18fff-978b-495a-bbea-2287200e2da7.png)
+![3](https://user-images.githubusercontent.com/115681510/202352687-81741b6b-eef8-4df3-976d-0ad11faa45f7.png)
+
+
 
 2. 本项目需要使用redis，如果没有redis也不会使用redis，可以使用resources目录下的redis，这里的是绿色免安装版本，
 
