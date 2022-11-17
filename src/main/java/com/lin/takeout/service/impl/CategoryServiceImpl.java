@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.takeout.common.Result;
 import com.lin.takeout.entity.Category;
+import com.lin.takeout.entity.Dish;
+import com.lin.takeout.entity.Setmeal;
 import com.lin.takeout.mapper.CategoryMapper;
+import com.lin.takeout.mapper.DishMapper;
+import com.lin.takeout.mapper.SetmealMapper;
 import com.lin.takeout.service.CategoryService;
 import com.lin.takeout.service.DishService;
 import com.lin.takeout.service.SetmealService;
@@ -23,6 +27,10 @@ public class CategoryServiceImpl implements CategoryService {
     DishService dishService;
     @Autowired
     SetmealService setmealService;
+    @Autowired
+    DishMapper dishMapper;
+    @Autowired
+    SetmealMapper setmealMapper;
 
     //分页查询菜品类别
     @Override
@@ -51,14 +59,38 @@ public class CategoryServiceImpl implements CategoryService {
 
         if (category.getType() == 1){
 
-            //删除菜品
-            dishService.deleteDishById(id+"");
+            List<Dish> dishList = dishMapper.selectByCategoryId(id);
 
+            //删除菜品(如果该类别内有菜品)
+            if (dishList.size() != 0){
+
+                String dishId = "";
+                //将dishId拼接起来
+                for (Dish dish:dishList){
+                    dishId = dish.getId()+",";
+                }
+                //去掉最后一个,
+                dishId = dishId.substring(0,dishId.length()-1) + dishId.substring(dishId.length());
+
+                dishService.deleteDishById(dishId);
+            }
         }else if (category.getType() == 1){
 
-            //删除套餐
-            setmealService.deleteSetmealById(id+"");
+            List<Setmeal> setmealList = setmealMapper.selectList(new LambdaQueryWrapper<Setmeal>().eq(Setmeal::getCategoryId,id));
 
+            //删除套餐(如果该类别内有套餐)
+            if (setmealList.size() != 0){
+
+                String setmealId = "";
+                //将setmealId拼接起来
+                for (Setmeal setmeal:setmealList){
+                    setmealId = setmeal.getId()+",";
+                }
+                //去掉最后一个,
+                setmealId = setmealId.substring(0,setmealId.length()-1) + setmealId.substring(setmealId.length());
+
+                setmealService.deleteSetmealById(setmealId);
+            }
         }
 
         if (categoryMapper.deleteById(id) != 0){

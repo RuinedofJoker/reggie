@@ -39,8 +39,8 @@ public class CategoryController {
     }
 
     @DeleteMapping
-    public Result deleCategory(@RequestParam long id) throws Exception{
-        return categoryService.removeCategoryById(id);
+    public Result deleCategory(String ids) throws Exception{
+        return categoryService.removeCategoryById(Long.parseLong(ids));
     }
 
     @GetMapping("/list")

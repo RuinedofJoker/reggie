@@ -6,16 +6,12 @@ spring.shardingsphere.datasource.slave.url=jdbc:mysql://127.0.0.1:3306/数据库
 spring.shardingsphere.datasource.slave.username=
 spring.shardingsphere.datasource.slave.password=
 
-spring.redis.host=
-spring.redis.port=
-spring.redis.password=
+spring.redis.host=6379
+spring.redis.port=127.0.0.1
+#spring.redis.password=
 
 mail.host=smtp.qq.com
 mail.username=用户qq邮箱
 mail.password=qq邮箱授权码
-
-mail.host=smtp.163.com
-mail.username=用户163邮箱
-mail.password=邮箱密码
 
 mail.sender=邮件发送者

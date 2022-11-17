@@ -66,8 +66,9 @@ public class OrderServiceImpl implements OrderService {
 
     //修改订单状态
     @Override
+    @Transactional
     public Result<String> updateStatus(Orders orders) {
-        orderMapper.updateStatus(orders.getStatus());
+        orderMapper.updateStatus(orders.getStatus(),orders.getId());
         return Result.success("修改成功");
     }
 
