@@ -18,6 +18,8 @@ import com.lin.takeout.service.SetmealService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +45,7 @@ public class SetmealServiceImpl implements SetmealService {
 
     //根据套餐id获取套餐（同时获取了套餐内的菜品）
     @Override
+    @Cacheable(value = "setmealCache",key = "'setmeal_'+#id")
     public Result<SetmealDto> getSetmealById(long id) {
 
         //查询setmeal
@@ -101,6 +104,7 @@ public class SetmealServiceImpl implements SetmealService {
     //添加套餐，并添加套餐内的菜品
     @Transactional
     @Override
+    @CacheEvict(value = "setmealCache",allEntries = true,condition = "#result.data != null")
     public Result<String> saveSetmeal(SetmealDto setmealDto) {
 
         Setmeal setmeal = setmealDto;
@@ -130,6 +134,7 @@ public class SetmealServiceImpl implements SetmealService {
     //修改套餐是否还有的状态(可以批量修改)
     @Transactional
     @Override
+    @CacheEvict(value = "setmealCache",allEntries = true,condition = "#result.data != null")
     public Result<String> updateSetmealStatus(int status, String id) {
 
         String[] ids = id.split(",");
@@ -145,6 +150,7 @@ public class SetmealServiceImpl implements SetmealService {
 
     //根据套餐分类获取对应套餐
     @Override
+    @Cacheable(value = "setmealCache",key = "#setmeal.categoryId")
     public Result<List<Setmeal>> getCategoryList(Setmeal setmeal) {
 
         LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper();
@@ -157,6 +163,7 @@ public class SetmealServiceImpl implements SetmealService {
     //删除套餐（可批量操作）
     @Transactional
     @Override
+    @CacheEvict(value = "setmealCache",allEntries = true,condition = "#result.data != null")
     public Result<String> deleteSetmealById(String id) throws Exception{
 
         String[] ids = id.split(",");
@@ -183,6 +190,7 @@ public class SetmealServiceImpl implements SetmealService {
     //修改套餐
     @Transactional
     @Override
+    @CacheEvict(value = "setmealCache",allEntries = true,condition = "#result.data != null")
     public Result<String> updateSetmealById(SetmealDto setmealDto) throws Exception{
 
         Setmeal setmeal = setmealDto;

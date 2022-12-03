@@ -16,4 +16,4 @@ mail.password=qq邮箱授权码
 
 mail.sender=邮件发送者
 
-local.img=
+local.img=D:/img/

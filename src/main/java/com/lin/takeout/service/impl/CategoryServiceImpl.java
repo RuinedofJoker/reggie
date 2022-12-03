@@ -13,6 +13,8 @@ import com.lin.takeout.service.CategoryService;
 import com.lin.takeout.service.DishService;
 import com.lin.takeout.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     //查询所有菜品类别
     @Override
+    @Cacheable("categoryCache")
     public Result<List<Category>> getCategoryList() {
         return Result.success(categoryMapper.selectAll());
     }
@@ -53,6 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
     //删除菜品类别
     @Transactional
     @Override
+    @CacheEvict(value = "categoryCache",allEntries = true,condition = "#result.data != null")
     public Result removeCategoryById(long id) throws Exception{
 
         Category category = categoryMapper.selectById(id);
@@ -113,6 +117,7 @@ public class CategoryServiceImpl implements CategoryService {
     //添加菜品分类
     @Override
     @Transactional
+    @CacheEvict(value = "categoryCache",allEntries = true,condition = "#result.data != null")
     public Result saveCategory(Category category) {
 
         if (categoryMapper.selectBySort(category.getSort()) != null)
@@ -127,6 +132,7 @@ public class CategoryServiceImpl implements CategoryService {
     ///修改菜品分类
     @Override
     @Transactional
+    @CacheEvict(value = "categoryCache",allEntries = true,condition = "#result.data != null")
     public Result updateCategory(Category category) {
 
         if (categoryMapper.selectBySort(category.getSort()) != null)

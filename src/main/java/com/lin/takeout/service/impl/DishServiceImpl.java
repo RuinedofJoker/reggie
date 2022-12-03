@@ -15,6 +15,9 @@ import com.lin.takeout.service.DishService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,6 +58,7 @@ public class DishServiceImpl implements DishService {
     //修改菜品是否还有的状态(可批量删除)
     @Transactional
     @Override
+    @CacheEvict(value = "dishCache",allEntries = true,condition = "#result.data != null")
     public Result<String> updateDishStatus(int status, String id) {
 
         String[] ids = id.split(",");
@@ -70,6 +74,7 @@ public class DishServiceImpl implements DishService {
     //修改菜品
     @Transactional
     @Override
+    @CacheEvict(value = "dishCache",allEntries = true,condition = "#result.data != null")
     public Result<String> updateDish(DishDto dishDto) throws Exception {
 
         Dish dish = dishDto;
@@ -101,6 +106,7 @@ public class DishServiceImpl implements DishService {
 
     //根据菜品分类查询该分类下所有菜品
     @Override
+    @Cacheable(value = "dishCache",key = "#categoryId")
     public Result<List<DishDto>> getDishByCategoryId(long categoryId) {
 
         //查出该分类下所有菜品的id
@@ -164,6 +170,7 @@ public class DishServiceImpl implements DishService {
     //添加菜品
     @Override
     @Transactional
+    @CacheEvict(value = "dishCache",allEntries = true,condition = "#result.data != null")
     public Result<String> saveDish(DishDto dishDto) {
 
         Dish dish = dishDto;
@@ -197,6 +204,7 @@ public class DishServiceImpl implements DishService {
     //按菜品id删除菜品
     @Transactional
     @Override
+    @CacheEvict(value = "dishCache",allEntries = true,condition = "#result.data != null")
     public Result<String> deleteDishById(String id) throws Exception {
 
         String[] ids = id.split(",");

@@ -24,6 +24,7 @@ public class LoginCheckFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        log.info("拦截到请求："+((HttpServletRequest) servletRequest).getRequestURI());
         //静态页面
         String[] urls = new String[]{
                 "/employee/login",
@@ -33,10 +34,6 @@ public class LoginCheckFilter implements Filter {
                 "/common/**",
                 "/user/sendMsg",
                 "/user/login",
-                "/doc.html",
-                "/webjars/**",
-                "/swagger-resources",
-                "/v2/api-docs",
                 "/"
         };
 
@@ -64,6 +61,7 @@ public class LoginCheckFilter implements Filter {
 
         //用户未登录
         response.getWriter().write(JSON.toJSONString(Result.error("NOLOGIN")));
+        log.info("请求未放行");
     }
 
     private boolean check(String[] urls,String relURL){
